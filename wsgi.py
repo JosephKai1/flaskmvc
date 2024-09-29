@@ -3,15 +3,23 @@ from flask import Flask
 from flask.cli import with_appcontext, AppGroup
 
 from App.database import db, get_migrate
-from App.models import User
+from App.models import *
 from App.main import create_app
-from App.controllers import ( create_user, get_all_users_json, get_all_users, initialize )
+from App.controllers import *
+
+
 
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
 app = create_app()
 migrate = get_migrate(app)
+
+@app.cli.command("create-employer", help="creates an employer")
+@click.argument("companyName", default="CEPEP")
+def create_employer_command(companyName):
+    create_employer(companyName)
+    print(f'{companyName} created! ')
 
 # This command creates and initializes the database
 @app.cli.command("init", help="Creates and initializes the database")
