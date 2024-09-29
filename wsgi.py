@@ -49,6 +49,7 @@ def list_user_command(format):
 
 app.cli.add_command(user_cli) # add the group to the cli
 
+
 '''
 Test Commands
 '''
