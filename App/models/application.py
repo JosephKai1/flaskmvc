@@ -7,5 +7,3 @@ class Application(db.Model):
     applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.id'),nullable=False)
     job_id = db.Column(db.Integer, db.ForeignKey('job.id'), nullable=False)
     
-    
-    

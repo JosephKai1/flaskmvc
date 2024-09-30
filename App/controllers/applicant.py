@@ -1,5 +1,7 @@
 from App.models import Applicant
 from App.database import db
+from App.controllers.job import *
+
 
 def create_applicant(username, telephone, address, email, resume_id):
     newapplicant = Applicant(username=username, telephone=telephone, address=address, email=email, resume_id=resume_id)
