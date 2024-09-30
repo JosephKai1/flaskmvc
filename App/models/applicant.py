@@ -7,12 +7,16 @@ class Applicant(db.Model):
     telephone = db.Column(db.String(15), nullable=False)
     address = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(50), nullable=False)
-    resume_id = db.Column(db.Integer, db.ForeignKey('resume.id'), nullable=False)
+    resume_id = db.Column(db.Integer, db.ForeignKey('resume.id'), nullable=True)
     
 
-    def __init__(self, username, password):
+    def __init__(self, username, telephone, address, email, resume_id=None):
         self.username = username
-        self.set_password(password)
+        self.telephone = telephone
+        self.address = address
+        self.email = email
+        self.resume_id = resume_id
+        
 
     def get_json(self):
         return{
