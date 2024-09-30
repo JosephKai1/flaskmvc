@@ -1,8 +1,9 @@
 from App.models import Job
 from App.database import db
+from App.controllers.employer import *
 
 def create_job(title, description, requirements):
-    newJob = Job(title=title, description=description, requirements=requirements)
+    newJob = Job(title=title, description=description, requirements=requirements, employer_id=employer_id)
     db.session.add(newJob)
     db.session.commit()
     return newJob

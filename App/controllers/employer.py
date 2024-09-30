@@ -1,6 +1,7 @@
 from App.models import Employer
 from App.database import db
-from App.controllers.job import ( create_job )
+from App.controllers.job import *
+from App.controllers.applicant import *
 
 
 def create_employer(companyName):
@@ -15,6 +16,9 @@ def get_all_employers():
 def get_employer(id):
     return Employer.query.get(id)
 
+def get_employer_by_name(companyName):
+    return Employer.query.filter_by(companyName=companyName).first()
+
 def update_employer(id, comapanyName):
     employer = get_employer(id)
     if employer:
@@ -22,3 +26,11 @@ def update_employer(id, comapanyName):
         db.session.add(employer)
         return db.session.commit()
     return None
+
+def create_job(title, description, requirements, employer_id):
+    job = create_job(title, description, requirements,employer_id)
+    return job
+
+def view_applicants():
+    all_applicants = get_all_applicants()
+    return all_applicants

@@ -9,3 +9,6 @@ class Resume(db.Model):
     def __init__(self, username, password):
         self.username = username
         self.set_password(password)
+
+    def __repr__(self):
+        return f'<Resume {self.id} - {self.info}>'

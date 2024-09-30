@@ -1,6 +1,8 @@
 from App.models import Applicant
 from App.database import db
 from App.controllers.job import *
+from App.controllers.application import *
+from App.controllers.resume import *
 
 
 def create_applicant(username, telephone, address, email, resume_id):
@@ -21,8 +23,25 @@ def get_all_applicants():
 def update_applicant(id, username, telephone, address, email, resume_id):
     applicant = get_applicant(id)
     if applicant:
+        applicant.id = id
         applicant.username = username
+        applicant.telephone = telephone
+        applicant.address = address
+        applicant.email = email
+        applicant.resume_id = resume_id
         db.session.add(applicant)
         return db.session.commit()
     return None
-    
+
+def view_jobs():
+    jobs = get_all_jobs()
+    if jobs:
+        return jobs
+    return "No jobs available"
+
+def apply_for_job(id, job_id,info):
+    applicant = get_applicant(id)
+    newresume = create_resume(info)
+    if applicant:
+        application = create_application(applicant_id=applicant_id, job_id=job_id)
+        return application
