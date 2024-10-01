@@ -75,6 +75,11 @@ app.cli.add_command(test)
 
 employer_cli = AppGroup('employer', help='Employer object commands')
 
+@employer_cli.command('create', help='Create an employer')
+@click.option('--company-name', prompt='Please enter company name', )
+def create_employer_command(company_name):
+    print(create_employer(company_name))
+
 @employer_cli.command('list', help='List all employers')
 @click.argument("format", default="string")
 def list_employer_command(format):
@@ -94,9 +99,17 @@ def create_job_command(title, description, requirements, employer_id):
 @employer_cli.command('view-applicants', help='lists all applicants')
 @click.option('--job-id', prompt='Please enter the Job ID', help='The ID of the job to view applicants', type=int)
 def view_applicant_command(job_id):
-    application = get_application_by_job(job_id)
-    if not application:
+    applications = get_application_by_job(job_id)
+    if not applications:
         print(f'no applicants found!')
+    
+    for application in applications:
+        applicant = get_applicant(application.applicant_id)
+        if applicant:
+            print(f"Applicant ID: {applicant.id}, Username: {applicant.username}, Email: {applicant.email}, Telephone: {applicant.telephone}, Resume: {applicant.resume_id}")
+        else:
+            print(f"Could not find applicant with ID {application.applicant_id}")
+
 
 app.cli.add_command(employer_cli)
 
@@ -138,13 +151,11 @@ app.cli.add_command(application_cli)
 
 applicant_cli = AppGroup('applicant', help='Applicant object commands')
 
-#username, telephone, address, email, resume_id
-
 @applicant_cli.command("create", help="Creates an applicant")
-@click.argument("username", default="rob")
-@click.argument("telephone", default="345-2234")
-@click.argument("address", default="#101 Charlieville")
-@click.argument("email", default="billybob@mail.com")
+@click.option('--username', prompt='Please enter your username', default='', help='ID of the applicant applying for the job')
+@click.option('--telephone', prompt='Please enter your phone no.', default='', help='telephone of the applicant applying for the job')
+@click.option('--address', prompt='Please enter your address', default='', help='Address of the applicant applying for the job')
+@click.option('--email', prompt='Please enter your email', default='', help='email of the applicant applying for the job')
 @click.argument("resume_id", default="None")
 def create_applicant_command(username, telephone, address, email, resume_id):
     create_applicant(username, telephone, address, email, resume_id)
@@ -163,7 +174,7 @@ def view_jobs_command():
 @applicant_cli.command('apply-for-job', help='Applicant can apply for job')
 @click.option('--applicant-id', prompt='Please enter your Applicant ID', type=int, help='ID of the applicant applying for the job')
 @click.option('--job-id', prompt='Please enter the Job ID', type=int, help='ID of the job to apply for')
-@click.option('--info', prompt='Provide resume info (optional)', default='', help='Additional information for the job application')
+@click.option('--info', prompt='Provide resume info', default='', help='Additional information for the job application')
 def apply_for_job_command(applicant_id, job_id, info):
     application = apply_for_job(applicant_id, job_id, info)
     print(f'you have applied, your applicationID is: {application.id}')

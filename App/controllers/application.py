@@ -24,3 +24,6 @@ def update_Application(id, username):
 
 def get_application_by_job(job_id):
     return Application.query.filter_by(job_id=job_id).all()
+
+def get_application_by_applicant(applicant_id):
+    return Application.query.filter_by(applicant_id=applicant_id).all()

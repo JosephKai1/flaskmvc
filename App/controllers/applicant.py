@@ -41,5 +41,7 @@ def view_jobs():
 
 def apply_for_job(applicant_id, job_id, info):
     newresume = create_resume(info)
+    applicant = get_applicant(applicant_id)
+    applicant.resume_id = newresume.id
     application = create_application(applicant_id=applicant_id, job_id=job_id)
     return application
