@@ -15,18 +15,12 @@ from App.controllers import *
 app = create_app()
 migrate = get_migrate(app)
 
-@app.cli.command("create-employer", help="creates an employer")
-@click.argument("companyName", default="CEPEP")
-def create_employer_command(companyName):
-    create_employer(companyName)
-    print(f'{companyName} created! ')
-
 # This command creates and initializes the database
 @app.cli.command("init", help="Creates and initializes the database")
 def init():
     initialize()
     print('database intialized')
-
+    
 '''
 User Commands
 '''
@@ -76,3 +70,102 @@ def user_tests_command(type):
     
 
 app.cli.add_command(test)
+
+##EMPLOYER COMMANDS##
+
+employer_cli = AppGroup('employer', help='Employer object commands')
+
+@employer_cli.command('list', help='List all employers')
+@click.argument("format", default="string")
+def list_employer_command(format):
+    if format == 'string':
+        print(get_all_employers())
+
+
+@employer_cli.command('create-job', help='Create a job for applicants')
+@click.argument("title", default="Janitor")
+@click.argument("description", default="Clean after classes")
+@click.argument("requirements", default="Atleast one pass in Csec")
+@click.option("--employer-id", prompt="Employer ID", help="The ID of the employer creating the job")
+def create_job_command(title, description, requirements, employer_id):
+    job = create_job(title, description, requirements, employer_id)
+    click.echo(f"Job '{job.title}' created successfully for Employer ID {employer_id}.")
+
+@employer_cli.command('view-applicants', help='lists all applicants')
+@click.option('--job-id', prompt='Please enter the Job ID', help='The ID of the job to view applicants', type=int)
+def view_applicant_command(job_id):
+    application = get_application_by_job(job_id)
+    if not application:
+        print(f'no applicants found!')
+
+app.cli.add_command(employer_cli)
+
+##JOB COMMANDS##
+
+job_cli = AppGroup('job', help='Job object commands')
+
+@job_cli.command('list', help='List all available jobs')
+def list_job_command():
+    print(get_all_jobs())
+
+app.cli.add_command(job_cli)
+
+##RESUME COMMANDS##
+
+resume_cli = AppGroup('resume', help='Resume object commands')
+
+@resume_cli.command('list', help='List all resumes')
+@click.argument("format", default="string")
+def list_job_command(format):
+    if format == 'string':
+        print(get_all_resumes())
+
+app.cli.add_command(resume_cli)
+
+##APPLICATION COMMANDS##
+
+application_cli = AppGroup('application', help='Application object commands')
+
+@application_cli.command('list', help='List all Applications')
+@click.argument("format", default="string")
+def list_job_command(format):
+    if format == 'string':
+        print(get_all_applications())
+
+app.cli.add_command(application_cli)
+
+##APPLICANT COMMANDS##
+
+applicant_cli = AppGroup('applicant', help='Applicant object commands')
+
+#username, telephone, address, email, resume_id
+
+@applicant_cli.command("create", help="Creates an applicant")
+@click.argument("username", default="rob")
+@click.argument("telephone", default="345-2234")
+@click.argument("address", default="#101 Charlieville")
+@click.argument("email", default="billybob@mail.com")
+@click.argument("resume_id", default="None")
+def create_applicant_command(username, telephone, address, email, resume_id):
+    create_applicant(username, telephone, address, email, resume_id)
+    print(f'{username} created!')
+
+@applicant_cli.command('list', help='List all applicants')
+@click.argument("format", default="string")
+def list_job_command(format):
+    if format == 'string':
+        print(get_all_applicants())
+
+@applicant_cli.command('view-jobs', help='View the jobs available')
+def view_jobs_command():
+    print(view_jobs())
+
+@applicant_cli.command('apply-for-job', help='Applicant can apply for job')
+@click.option('--applicant-id', prompt='Please enter your Applicant ID', type=int, help='ID of the applicant applying for the job')
+@click.option('--job-id', prompt='Please enter the Job ID', type=int, help='ID of the job to apply for')
+@click.option('--info', prompt='Provide resume info (optional)', default='', help='Additional information for the job application')
+def apply_for_job_command(applicant_id, job_id, info):
+    application = apply_for_job(applicant_id, job_id, info)
+    print(f'you have applied, your applicationID is: {application.id}')
+
+app.cli.add_command(applicant_cli)

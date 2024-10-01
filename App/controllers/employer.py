@@ -28,6 +28,7 @@ def update_employer(id, comapanyName):
     return None
 
 def create_job(title, description, requirements, employer_id):
+    employer = Employer.query.get(employer_id)
     job = create_job(title, description, requirements,employer_id)
     return job
 

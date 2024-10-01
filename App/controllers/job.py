@@ -2,7 +2,7 @@ from App.models import Job
 from App.database import db
 from App.controllers.employer import *
 
-def create_job(title, description, requirements):
+def create_job(title, description, requirements, employer_id):
     newJob = Job(title=title, description=description, requirements=requirements, employer_id=employer_id)
     db.session.add(newJob)
     db.session.commit()
@@ -28,3 +28,6 @@ def update_job(id, title, description, requirements, employerName):
         db.session.add(job)
         return db.session.commit()
     return None
+
+def get_applications(job_id):
+    applications = get_application_by_job(job_id)

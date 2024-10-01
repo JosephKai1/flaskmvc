@@ -39,10 +39,7 @@ def view_jobs():
         return jobs
     return "No jobs available"
 
-def apply_for_job(id, job_id, info):
-    applicant = get_applicant(id)
+def apply_for_job(applicant_id, job_id, info):
     newresume = create_resume(info)
-    applicant.resume_id = newresume.id
-    if applicant:
-        application = create_application(applicant_id=applicant_id, job_id=job_id)
-        return application
+    application = create_application(applicant_id=applicant_id, job_id=job_id)
+    return application
