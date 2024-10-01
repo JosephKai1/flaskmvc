@@ -1,3 +1,18 @@
+</br>@app.cli.command("init", help="Creates and initializes the database")</br>
+</br>@user_cli.command("create", help="Creates a user")</br>
+</br>@user_cli.command("list", help="Lists users in the database")</br>
+</br>@test.command("user", help="Run User tests")</br>
+</br>@employer_cli.command('list', help='List all employers')</br>
+</br>@employer_cli.command('create-job', help='Create a job for applicants')</br>
+</br>@employer_cli.command('view-applicants', help='lists all applicants')</br>
+</br>@job_cli.command('list', help='List all available jobs')</br>
+</br>@resume_cli.command('list', help='List all resumes')</br>
+</br>@application_cli.command('list', help='List all Applications')</br>
+</br>@applicant_cli.command("create", help="Creates an applicant")</br>
+</br>@applicant_cli.command('list', help='List all applicants')</br>
+</br>@applicant_cli.command('view-jobs', help='View the jobs available')</br>
+</br>@applicant_cli.command('apply-for-job', help='Applicant can apply for job')</br>
+
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/uwidcit/flaskmvc)
 <a href="https://render.com/deploy?repo=https://github.com/uwidcit/flaskmvc">
   <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render">
