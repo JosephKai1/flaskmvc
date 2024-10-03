@@ -20,6 +20,11 @@ migrate = get_migrate(app)
 def init():
     initialize()
     print('database intialized')
+    print(get_all_employers())
+    print(get_all_jobs())
+    print(get_all_resumes())
+    print(get_all_applications())
+    print(get_all_applicants())
     
 '''
 User Commands
