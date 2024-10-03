@@ -88,9 +88,9 @@ def list_employer_command(format):
 
 
 @employer_cli.command('create-job', help='Create a job for applicants')
-@click.argument("title", default="Janitor")
-@click.argument("description", default="Clean after classes")
-@click.argument("requirements", default="Atleast one pass in Csec")
+@click.option("--title",prompt="title", default="Janitor")
+@click.option("--description", prompt="description",default="Clean after classes")
+@click.option("--requirements", prompt= "requirements", default="Atleast one pass in Csec")
 @click.option("--employer-id", prompt="Employer ID", help="The ID of the employer creating the job")
 def create_job_command(title, description, requirements, employer_id):
     job = create_job(title, description, requirements, employer_id)
